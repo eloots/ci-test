@@ -35,5 +35,5 @@ jobs:
       - name: Native image generation
         shell: bash
         run: |
-          echo $(matrix.os) $(matrix.uploaded_filename) $(matrix.local_path)
+          echo ${{ matrix.os }} ${{ matrix.uploaded_filename }} ${{ matrix.local_path }}
 
