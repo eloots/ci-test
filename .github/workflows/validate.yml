@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ 'ubuntu-latest', 'macos-latest' ]
-         include:
+        include:
            - os: macOS-latest
              uploaded_filename: cmta-x86_64-apple-darwin
              local_path: cmta/target/native-image/cmta
