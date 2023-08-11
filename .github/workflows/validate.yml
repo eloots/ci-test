@@ -39,5 +39,5 @@ jobs:
       - name: Native image generation
         shell: bash
         run: |
-          echo ${{ matrix.os }} ${{ matrix.uploaded_filename }} ${{ matrix.local_path }}
+          echo ${{ matrix.os }} ${{ matrix.uploaded_filename_cmta }} ${{ matrix.local_path_cmta }} ${{ matrix.uploaded_filename_cmtc }} ${{ matrix.local_path_cmtc }}
 
