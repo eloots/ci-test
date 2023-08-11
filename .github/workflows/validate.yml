@@ -16,12 +16,16 @@ jobs:
       matrix:
         os: [ 'ubuntu-latest', 'macos-latest' ]
         include:
-           - os: macOS-latest
-             uploaded_filename: cmta-x86_64-apple-darwin
-             local_path: cmta/target/native-image/cmta
+           - os: macos-latest
+             uploaded_filename_cmta: cmta-x86_64-apple-darwin
+             local_path_cmta: cmta/target/native-image/cmta
+             uploaded_filename_cmtc: cmtc-x86_64-apple-darwin
+             local_path_cmtc: cmtc/target/native-image/cmtc
            - os: ubuntu-latest
-             uploaded_filename: cmta-x86_64-pc-linux
-             local_path: cmta/target/native-image/cmta
+             uploaded_filename_cmta: cmta-x86_64-pc-linux
+             local_path_cmta: cmta/target/native-image/cmta
+             uploaded_filename_cmtc: cmtc-x86_64-apple-darwin
+             local_path_cmtc: cmtc/target/native-image/cmtc
         #   - os: windows-latest
         #     uploaded_filename: cmta-x86_64-pc-win32.exe
         #     local_path: cmta\target\native-image\cmta
