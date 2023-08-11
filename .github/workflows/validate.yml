@@ -1,0 +1,59 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  native-image:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'ubuntu-latest', 'macos-latest' ]
+        include:
+           - os: macos-latest
+             uploaded_filename_cmta: cmta-x86_64-apple-darwin
+             local_path_cmta: cmta/target/native-image/cmta
+             uploaded_filename_cmtc: cmtc-x86_64-apple-darwin
+             local_path_cmtc: cmtc/target/native-image/cmtc
+           - os: ubuntu-latest
+             uploaded_filename_cmta: cmta-x86_64-pc-linux
+             local_path_cmta: cmta/target/native-image/cmta
+             uploaded_filename_cmtc: cmtc-x86_64-apple-darwin
+             local_path_cmtc: cmtc/target/native-image/cmtc
+        #   - os: windows-latest
+        #     uploaded_filename: cmta-x86_64-pc-win32.exe
+        #     local_path: cmta\target\native-image\cmta
+
+    env:
+      # define Java options for both official sbt and sbt-extras
+      JAVA_OPTS: -Xms2048M -Xmx2048M -Xss6M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
+      JVM_OPTS:  -Xms2048M -Xmx2048M -Xss6M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8
+
+    steps:
+      - name: Branch name
+        id: branch_name
+        run: |
+          echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
+          echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+          echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+      - name: Build base image
+        run: |
+          echo $SOURCE_NAME
+          echo $SOURCE_BRANCH
+          echo $SOURCE_TAG
+        env:
+          SOURCE_NAME: ${{ steps.branch_name.outputs.SOURCE_NAME }}
+          SOURCE_BRANCH: ${{ steps.branch_name.outputs.SOURCE_BRANCH }}
+          SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
+
+      - name: Native image generation
+        shell: bash
+        run: |
+          echo ${{ matrix.os }} ${{ matrix.uploaded_filename_cmta }} ${{ matrix.local_path_cmta }} ${{ matrix.uploaded_filename_cmtc }} ${{ matrix.local_path_cmtc }}
+
